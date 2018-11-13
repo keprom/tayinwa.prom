@@ -208,7 +208,7 @@ echo "0".($schetfactura_date->id);?> </td>
 	<br>
 	<table width=100%  >
 	<tr>
-	<td align=left>И.о. директора</td><td align=right>ВЫДАЛ (ответственное лицо поставщика) </td>
+	<td align=left>Директор</td><td align=right>ВЫДАЛ (ответственное лицо поставщика) </td>
 	</tr>
 	<tr>
 	<td align=left><?php echo $org->director; ?>____________</td><td align=right>Инженер Иваницкий А.П. ____________________________</td>

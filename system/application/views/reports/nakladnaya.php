@@ -197,7 +197,7 @@ foreach($s as $s2 ):
 					<table border=0 cellspacing=0 width=200px>
 						<tr>
 								<td width=140px>Отпуск разрешил</td>
-								<td colspan=3><u> И.о. директора <?php echo trim($org->director); ?> </u> </td></tr>
+								<td colspan=3><u>Директор <?php echo trim($org->director); ?> </u> </td></tr>
 								<tr>
 								<td align=center width=100px> <sup><i>(должность)</i></sup> </td>
 								<td align=center> <sup><i>(Ф.И.О.)</i></sup></td>
