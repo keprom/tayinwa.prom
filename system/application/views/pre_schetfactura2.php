@@ -2,10 +2,6 @@
 $r=$r->row();
 echo form_open("billing/schetfactura");
 echo "<input type=hidden name=firm_id value=".$firm_id." >";
-echo "<input type=checkbox name=html  ><br>";
-echo "Выдать актом выполненых работ <input type=checkbox name=akt_vypolnenyh_rabot  ><br>";
-echo "Новая счет-фактура <input type=checkbox name=new_schetfactura ><br>";
-echo "Выдача накладной <input type=checkbox name=nakladnaya><br>";
 echo "<input type=hidden name=period_id value=".$period_id." >";
 ?>
 Другая дата выдачи: <input name=data_schet value='' > <br><br>

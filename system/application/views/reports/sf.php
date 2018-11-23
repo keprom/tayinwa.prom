@@ -268,14 +268,16 @@
             <td colspan="5" width="40%">
                 <b>
                     БЕРДІ (жеткізушінің жауапты тұлғасы)<br>
-                    ВЫДАЛ (ответственное лицо поставщика)
+                    ВЫДАЛ (ответственное лицо поставщика)<br>
                 </b>
+                Инженер Иваницкий А.П.
+
             </td>
         </tr>
         <tr>
             <td colspan="5" class="border-bottom-cell">&nbsp;</td>
             <td></td>
-            <td colspan="5" align="center" class="border-bottom-cell">Инженер Иваницкий А.П.</td>
+            <td colspan="5" align="center" class="border-bottom-cell"></td>
         </tr>
         <tr>
             <td colspan="5" align="center"><sup>(Ф.И.О., подпись)</sup></td>
@@ -355,7 +357,8 @@
     <br>
     <table class="block border-table">
         <tr>
-            <td style="width: 70%;" align="center" rowspan="2"><h3 class="no-margin">Накладная на отпуск запасов на сторону</h3></td>
+            <td style="width: 70%;" align="center" rowspan="2"><h3 class="no-margin">Накладная на отпуск запасов на
+                    сторону</h3></td>
             <td align="center">Номер документа</td>
             <td align="center">Дата составления</td>
         </tr>
