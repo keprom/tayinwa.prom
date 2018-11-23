@@ -144,7 +144,7 @@
         </tr>
         <tr class="border-bottom">
             <td colspan="10">Алушының ЖСК<br/> ИИК получателя: <?php echo $firm->raschetnyy_schet; ?> в банке
-                <?php echo $bank->name; ?> БИК<?php echo $bank->mfo; ?></td>
+                <?php echo $bank->name; ?></td>
             <td align="right"> (10б)</td>
         </tr>
         </tbody>
