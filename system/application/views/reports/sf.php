@@ -237,10 +237,10 @@
 
         <tr>
             <td colspan="5"><b>Барлыгы шот бойынша<br/>Всего по счету</b></td>
-            <td class="td-number"><?php echo prettify_number($itog_tenge + $fine_value); ?></td>
+            <td class="td-number"><b><?php echo prettify_number($itog_tenge + $fine_value); ?></b></td>
             <td class="gray-cube"></td>
-            <td class="td-number"><?php echo prettify_number($itog_nds); ?></td>
-            <td class="td-number"><?php echo prettify_number($itog_nds + $itog_tenge + $fine_value); ?></td>
+            <td class="td-number"><b><?php echo prettify_number($itog_nds); ?></b></td>
+            <td class="td-number"><b><?php echo prettify_number($itog_nds + $itog_tenge + $fine_value); ?></b></td>
             <td class="gray-cube"></td>
             <td></td>
         </tr>
