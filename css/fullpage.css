@@ -21,7 +21,7 @@
     }
 
     .hide-on-print {
-        visibility: hidden !important;
+        display: none !important;
     }
 }
 
