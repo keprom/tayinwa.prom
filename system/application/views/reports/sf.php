@@ -57,8 +57,7 @@
         <tr class="border-bottom">
             <td colspan="10">
                 Жеткізушінің БСН мен мекенжайы<br/>БИН и адрес поставщика:
-                <?php echo "БИН " . $org->bin . ", " . $org->address; ?> Свидетельство о постановке на
-                регистрационный учет по НДС серия 03001 № 0007114 от 17.09.2012
+                <?php echo "БИН " . $org->bin . ", " . $org->address.", ".$org->svidetelstvo_nds; ?>
             </td>
             <td align="right">(2а)</td>
         </tr>
