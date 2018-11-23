@@ -19,6 +19,10 @@
         background-color: #c0c0c0;
         -webkit-print-color-adjust: exact;
     }
+
+    .hide-on-print {
+        visibility: hidden !important;
+    }
 }
 
 .border-table, .border-table td, .border-table tr, .border-table th {
