@@ -99,6 +99,7 @@ class Billing extends Controller
         $data['poisk'] = $this->session->userdata('poisk');
         if ($this->session->userdata('poisk') == NULL) $data['poisk'] = '1';
         $this->load->view("left", $data);
+		$this->load->view("messages");		
     }
 
     function phpinfo()
@@ -2352,6 +2353,8 @@ class Billing extends Controller
     function perehod()
     {
         $this->db->query("select * from industry.goto_next_period_fine()");
+		$array = array(1 => 'Переход в следующий месяц прошел успешно!');
+		$this->session->set_flashdata('success', $array);		
         redirect("billing");
     }
 
