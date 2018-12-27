@@ -6,6 +6,7 @@ echo "<input type=hidden name=period_id value=".$period_id." >";
 ?>
 Другая дата выдачи: <input name=data_schet value='' > <br><br>
 Другой номер счетфактуры: <input name=schet2 value='' > <br><br>
+Последний номер счета-фактуры <input type="text" disabled value="<?php echo $max_schet_number; ?>"><br><br>
 Условия оплаты по договору: <input name=edit1 value='<?php echo $firm->edit1; ?>' > <br><br>
 Пункт назначения поставляемых товаров (работ, услуг): <input name=edit2 value='<?php echo $firm->edit2; ?>'> <br> <br>
 Поставка товаров осуществлена по доверености: <input name=edit3 value='<?php echo $firm->edit3; ?>'> <br> <br>
