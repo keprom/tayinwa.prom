@@ -43,7 +43,7 @@
 <tr><th>Номер<br>договора</th><th>Дата<br>оплаты</th><th>Номер<br>счета</th><th>Сумма<br>оплаты</th><th>НДС</th><th>Сумма<br>без НДС</th>
 <th align=right>Номер<br>документа</th></tr>
 <?php foreach($oplata->result() as $o): 
-echo "<tr><td>{$o->dogovor}</td>
+echo "<tr><td>{$o->nomer1c}</td>
 <td>{$o->data}</td>
 <td>{$o->number}</td>
 <td>".(f_d($o->value*1.12))."</td>
