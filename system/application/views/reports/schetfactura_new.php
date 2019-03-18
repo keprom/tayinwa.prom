@@ -349,7 +349,7 @@ function datetostring2($date)
             <td align="left"><b>Директор<br/>Директор <?php echo trim($org->director); ?></b></td>
             <td></td>
             <td align="right"><b>БЕРДІ (жеткізушінің жауапты тұлғасы)<br/>ВЫДАЛ (ответственное лицо поставщика) Инженер
-                    Титовец И.В.</b></td>
+                    Баранников Д.А.</b></td>
         </tr>
         <tr>
             <td></td>

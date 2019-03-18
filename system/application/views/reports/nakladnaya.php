@@ -212,7 +212,7 @@ foreach($s as $s2 ):
 						</tr><tr><td><br></td></tr><tr>
 							
 								<td>Отпустил</td>
-								<td colspan=3><u>Инженер Титовец И.В.</u></td></tr><tr>
+								<td colspan=3><u>Инженер Баранников Д.А.</u></td></tr><tr>
 								<td></td>
 								<td colspan=2 align=center> <sup><i>(Ф.И.О.)</i></sup></td>
 								<td align=center> <sup><i>(Подпись)</i></sup></td></tr>

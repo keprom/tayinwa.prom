@@ -211,7 +211,7 @@ echo "0".($schetfactura_date->id);?> </td>
 	<td align=left>Директор</td><td align=right>ВЫДАЛ (ответственное лицо поставщика) </td>
 	</tr>
 	<tr>
-	<td align=left><?php echo $org->director; ?>____________</td><td align=right>Инженер Титовец И.В. ____________________________</td>
+	<td align=left><?php echo $org->director; ?>____________</td><td align=right>Инженер Баранников Д.А. ____________________________</td>
 	</tr>
 	<tr>
 	<td align=left>(Ф.И.О., подпись)</td><td align=right>(Ф.И.О., подпись)</td>
