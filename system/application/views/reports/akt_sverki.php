@@ -58,7 +58,8 @@
     </tr>
     <tr>
         <td colspan="3">
-            <?php echo $org->org_name; ?> в лице главного бухгалтера ____________________________________________________ с одной стороны,
+            <?php echo $org->org_name; ?> в лице главного бухгалтера
+            ____________________________________________________ с одной стороны,
             и <?php echo $firm->name; ?> в лице
         </td>
     </tr>
@@ -74,7 +75,8 @@
     </tr>
     <tr>
         <td colspan="3">с другой стороны, составили настоящий акт в том, что сего числа произвели сверку взаимных
-            расчетов по состоянию на <?php echo '_________'; ?>, причем в результате сверки выявлены расхождения, которые
+            расчетов по состоянию на <?php echo '_________'; ?>, причем в результате сверки выявлены расхождения,
+            которые
             следует допровести:
         </td>
     </tr>
@@ -171,8 +173,7 @@
         $pe_day = substr($period_end->end_date, 8, 2);
         $pe_year = substr($period_end->end_date, 0, 4);
         ?>
-        <td><b>Сальдо
-                на <?php echo $pe_day . ' ' . $period_end_name . ' ' . $pe_year . ' года'; ?></b></td>
+        <td><b>Сальдо на <?php echo $pe_day . ' ' . $period_end_name . ' ' . $pe_year . ' года'; ?></b></td>
         <td class="td-number"><b><?php echo prettify_number($saldo_debet); ?></b></td>
         <td class="td-number"><b><?php echo prettify_number($saldo_kredit); ?></b></td>
         <td><b></b></td>
