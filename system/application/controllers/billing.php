@@ -99,7 +99,7 @@ class Billing extends Controller
         $data['poisk'] = $this->session->userdata('poisk');
         if ($this->session->userdata('poisk') == NULL) $data['poisk'] = '1';
         $this->load->view("left", $data);
-		$this->load->view("messages");		
+        $this->load->view("messages");
     }
 
     function phpinfo()
@@ -414,9 +414,9 @@ class Billing extends Controller
 
     function adding_tp()
     {
-        if (trim($_POST['name'])!=""){
-            $_POST['ture_id'] = isset($_POST['ture_id'])? $_POST['ture_id']: 0;
-            $this->db->insert('industry.tp',$_POST);
+        if (trim($_POST['name']) != "") {
+            $_POST['ture_id'] = isset($_POST['ture_id']) ? $_POST['ture_id'] : 0;
+            $this->db->insert('industry.tp', $_POST);
         }
         redirect("billing/tp");
     }
@@ -846,21 +846,70 @@ class Billing extends Controller
 
     function pre_akt_sverki()
     {
-        $this->db->where('id', $this->uri->segment(3));
-        $data['r'] = $this->db->get('industry.firm')->row();
-        $sql = "SELECT value::integer as current_period FROM industry.sprav WHERE name='current_period'";
-        $data['current_period'] = $this->db->query($sql)->row()->current_period;
-        $data['period'] = $this->db->get('industry.period');
-        $data['firm_id'] = $this->uri->segment(3);
+        $data['firm_id'] = (int)$this->uri->segment(3);
+        $data['period'] = $this->db->query("select * from industry.period where period.id <= industry.current_period_id() order by period.id desc")->result();
         $this->left();
-        $this->load->view("pre_akt_sverki", $data);
-        $this->load->view("right");
+        $this->load->view('pre_akt_sverki', $data);
+        $this->load->view('right');
     }
 
     function akt_sverki()
     {
-        $sql = "select * from industry.vedomost where firm_id={$_POST['firm_id']} and  period_id between {$_POST['start_period_id']} and {$_POST['finish_period_id']}";
-        $data['akt'] = $this->db->query($sql);
+        if ($_POST['period_id_start'] > $_POST['period_id_end']) {
+            exit("Стартовая дата превышает конечную!");
+        }
+
+        $firm_id = $this->uri->segment(3);
+
+        $this->db->where('id', $firm_id);
+        $data['firm'] = $this->db->get("industry.firm")->row();
+
+        $this->db->where('id', $_POST['period_id_end']);
+        $data['period_end'] = $this->db->get("industry.period")->row();
+
+        $this->db->where('start_period_id', $_POST['period_id_start']);
+        $this->db->where('end_period_id', $_POST['period_id_end']);
+        $this->db->where('firm_id', $firm_id);
+        $isset_akt = $this->db->get("industry.fine_akt_sverki")->num_rows();
+        $data['data_akta'] = date('d.m.Y');
+
+        $ins_arr = array(
+            'start_period_id' => $_POST['period_id_start'],
+            'end_period_id' => $_POST['period_id_end'],
+            'firm_id' => $firm_id,
+            'data' => date('Y-m-d')
+        );
+
+        $this->db->where('start_period_id', $_POST['period_id_start']);
+        $this->db->where('end_period_id', $_POST['period_id_end']);
+        $this->db->where('firm_id', $firm_id);
+        $isset_akt = $this->db->get('industry.fine_akt_sverki')->num_rows();
+
+        if ($isset_akt == 0) {
+            $this->db->insert('industry.fine_akt_sverki', $ins_arr);
+            $data['akt_number'] = $this->db->insert_id();
+        } else {
+            $this->db->where('start_period_id', $_POST['period_id_start']);
+            $this->db->where('end_period_id', $_POST['period_id_end']);
+            $this->db->where('firm_id', $firm_id);
+            $data['akt_number'] = $this->db->get("industry.fine_akt_sverki")->row()->id;
+
+            $this->db->where('start_period_id', $_POST['period_id_start']);
+            $this->db->where('end_period_id', $_POST['period_id_end']);
+            $this->db->where('firm_id', $firm_id);
+            $this->db->update('industry.fine_akt_sverki', array('data' => $data['data_akta']));
+        }
+
+
+        $data['org'] = $this->db->get("industry.org_info")->row();
+
+        $this->db->where('firm_id', $firm_id);
+        $this->db->where('period_id >=', $_POST['period_id_start']);
+        $this->db->where('period_id <=', $_POST['period_id_end']);
+        $data['akt'] = $this->db->get("industry.fine_akt_sverki_source")->result();
+        $data['firm_id'] = $firm_id;
+
+
         $this->load->view('reports/akt_sverki', $data);
     }
 
@@ -910,8 +959,8 @@ class Billing extends Controller
         $data['r'] = $this->db->get('industry.schetfactura_date');
         $this->db->where('id', $_POST["firm_id"]);
         $data['firm'] = $this->db->get('industry.firm')->row();
-		
-        $this->db->where('period_id',$_POST['period_id']);
+
+        $this->db->where('period_id', $_POST['period_id']);
         $data['max_schet_number'] = $this->db->get("shell.max_schet_number")->row()->schet_number;
 
         $this->left();
@@ -1433,7 +1482,7 @@ class Billing extends Controller
             dbase_close($db);
             $db2 = dbase_open("c:/oplata/schet.dbf", 2);
             foreach ($nach->result() as $n) {
-                if ($n->dog1 == 0){
+                if ($n->dog1 == 0) {
                     $array_error[] = "У договора #{$n->dog} некорректный номер 1C: {$n->dog1}";
                     continue;
                 }
@@ -1443,7 +1492,7 @@ class Billing extends Controller
                     continue;
                 }
 
-                if (strlen(trim($n->nomer)) == 0){
+                if (strlen(trim($n->nomer)) == 0) {
                     $array_error[] = "Номер счет-фактуры, выписанной договору #{$n->dog}, некорректный: {$n->nomer}";
                     continue;
                 }
@@ -1838,26 +1887,27 @@ class Billing extends Controller
     {
         $bill_id = $this->uri->segment(3);
         $period_id = $this->get_cpi($bill_id);
-        $this->db->where("bill_id",$bill_id);
-        $this->db->where("period_id",$period_id);
+        $this->db->where("bill_id", $bill_id);
+        $this->db->where("period_id", $period_id);
         $n = $this->db->get("industry.nadbavka_info");
-        if($n->num_rows > 0){
+        if ($n->num_rows > 0) {
             die("V dannyi period na tochke ucheta nahodyatsya nadbavki!");
         }
-        $this->db->where("bill_id",$bill_id);
-        $this->db->where("period_id",$period_id);
+        $this->db->where("bill_id", $bill_id);
+        $this->db->where("period_id", $period_id);
         $sbp = $this->db->get("industry.sovm_billing_point");
-        if($sbp->num_rows > 0){
+        if ($sbp->num_rows > 0) {
             die("Na tochke ucheta imeutsya sovmesntye uchety!");
         }
-        $this->db->where("bill_id",$bill_id);
+        $this->db->where("bill_id", $bill_id);
         $unfc = $this->db->get("industry.unfinished_counter");
-        if($unfc->num_rows > 0){
+        if ($unfc->num_rows > 0) {
             die("Na tochke ucheta imeutsya nesnyatye schetchiki!");
         }
     }
 
-    private function get_cpi(){
+    private function get_cpi()
+    {
         return $this->db->query("select * from industry.current_period_id()")->row()->current_period_id;
     }
 
@@ -2375,8 +2425,8 @@ class Billing extends Controller
     function perehod()
     {
         $this->db->query("select * from industry.goto_next_period_fine()");
-		$array = array(1 => 'Переход в следующий месяц прошел успешно!');
-		$this->session->set_flashdata('success', $array);		
+        $array = array(1 => 'Переход в следующий месяц прошел успешно!');
+        $this->session->set_flashdata('success', $array);
         redirect("billing");
     }
 
@@ -3831,14 +3881,14 @@ where firm_id={$this->uri->segment(3)} and data_finish is null";
         redirect("billing/tariff_list");
     }
 
-    	public function export_rekvizit_schet()
+    public function export_rekvizit_schet()
     {
         /*проверка наличия дублирующихся номеров СФ*/
         $this->db->where('period_id', $this->get_cpi());
         $dup_schet_number = $this->db->get("shell.dup_schet_number");
-        if ($dup_schet_number->num_rows>0) {
+        if ($dup_schet_number->num_rows > 0) {
             $array_error = array(1 => 'Имеются повторяющиеся номера счетов-фактур!');
-            foreach ($dup_schet_number->result() as $d){
+            foreach ($dup_schet_number->result() as $d) {
                 $array_error[] = "№{$d->dogovor}: номер счета-фактуры: {$d->schet_number}";
             }
             $this->session->set_flashdata('error', $array_error);
@@ -3863,7 +3913,7 @@ where firm_id={$this->uri->segment(3)} and data_finish is null";
             $db = dbase_open("c:/oplata/rschet.dbf", 2);
             foreach ($nach->result() as $n) {
                 //проверка номера 1С
-                if ($n->dog1 == 0){
+                if ($n->dog1 == 0) {
                     $array_error[] = "№{$n->dog}: некорректный номер 1C - {$n->dog1}";
                     continue;
                 }
@@ -3900,14 +3950,14 @@ where firm_id={$this->uri->segment(3)} and data_finish is null";
                 }
 
                 //проверка расчетного счета
-                if(($n->mfo <> '') && (mb_strlen($n->schet, 'UTF-8') <> 20)){
+                if (($n->mfo <> '') && (mb_strlen($n->schet, 'UTF-8') <> 20)) {
                     $array_error[] = "№{$n->dog}: некорректный расчетный счет - {$n->schet}";
                     continue;
                 }
-								
-                if(($n->mfo == '') && (mb_strlen($n->schet, 'UTF-8') <> 20)){
+
+                if (($n->mfo == '') && (mb_strlen($n->schet, 'UTF-8') <> 20)) {
                     $n->schet = '';
-                }	
+                }
 
                 //проверка начисления
                 if ($n->beznds == 0) {
@@ -3916,7 +3966,7 @@ where firm_id={$this->uri->segment(3)} and data_finish is null";
                 }
 
                 //проверка номера СФ
-                if (strlen(trim($n->nomer)) == 0){
+                if (strlen(trim($n->nomer)) == 0) {
                     $array_error[] = "№{$n->dog}: некорректный номер счет-фактуры - {$n->nomer}";
                     continue;
                 }
@@ -3949,11 +3999,11 @@ where firm_id={$this->uri->segment(3)} and data_finish is null";
             $current_period = $this->db->get("industry.period")->row();
             $current_period = explode("-", $current_period->end_date);
             $month = $current_period[1];
-            
+
             if (!copy("c:/oplata/rschet.dbf", "c:/oplata/taynwa{$month}.dbf")) {
                 $array_error[] = "Не удалось скопировать файл rschet.dbf";
             }
-            
+
             $array_success[] = 'Перенос прошел успешно!';
             $this->session->set_flashdata('success', $array_success);
             $this->session->set_flashdata('error', $array_error);
@@ -3963,7 +4013,7 @@ where firm_id={$this->uri->segment(3)} and data_finish is null";
         }
     }
 
-	public function kontragent_rek()
+    public function kontragent_rek()
     {
         $data['report'] = $this->db->get("shell.kontragent_rek")->result();
         $this->load->view("other_reports/kontragent_rek", $data);
@@ -3971,7 +4021,7 @@ where firm_id={$this->uri->segment(3)} and data_finish is null";
 
     public function sf_verification()
     {
-        switch ($_POST['kvt_type']){
+        switch ($_POST['kvt_type']) {
             case '-1':
                 $this->db->where('kvt < 0');
                 break;
@@ -3993,7 +4043,7 @@ where firm_id={$this->uri->segment(3)} and data_finish is null";
     public function migration()
     {
         $data['report'] = $this->db->get("shell.migration")->result();
-        $this->export_to_excel("other_reports/migration", $data,"тайыншинский_рэс");
+        $this->export_to_excel("other_reports/migration", $data, "тайыншинский_рэс");
 //        $this->load->view("other_reports/migration", $data);
     }
 

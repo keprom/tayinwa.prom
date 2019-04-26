@@ -83,9 +83,14 @@ if (!function_exists('days_diff')) {
 
 
 if (!function_exists('prettify_number')) {
-    function prettify_number($number, $decimals = 2)
+    function prettify_number($number, $decimals = 2, $emptyPlaceHolder = null)
     {
-        return number_format($number, $decimals, ',', ' ');
+        if (!$number == 0){
+            return number_format($number, $decimals, ',', ' ');
+        } else {
+            return $emptyPlaceHolder;
+        }
+
     }
 }
 
